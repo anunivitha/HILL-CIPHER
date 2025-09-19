@@ -29,7 +29,62 @@ STEP-4: Multiply the two matrices to obtain the cipher text of length three.
 STEP-5: Combine all these groups to get the complete cipher text.
 
 ## PROGRAM 
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#define SIZE 3
 
+int charToInt(char c) {
+    return toupper(c) - 'A';
+}
+
+char intToChar(int n) {
+    return (char)(n + 'A');
+}
+
+int main() {
+    int key[SIZE][SIZE];
+    char plaintext[100], ciphertext[100];
+    int i, j, k, len;
+
+    printf("Enter 3x3 key matrix (row-wise):\n");
+    for (i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            scanf("%d", &key[i][j]);
+        }
+    }
+
+    printf("Enter plaintext (in CAPITAL letters, no spaces): ");
+    scanf("%s", plaintext);
+
+    len = strlen(plaintext);
+    while (len % SIZE != 0) {
+        plaintext[len++] = 'X';
+        plaintext[len] = '\0';
+    }
+
+    int pos = 0;
+    for (i = 0; i < len; i += SIZE) {
+        for (j = 0; j < SIZE; j++) {
+            int sum = 0;
+            for (k = 0; k < SIZE; k++) {
+                sum += key[j][k] * charToInt(plaintext[i + k]);
+            }
+            ciphertext[pos++] = intToChar(sum % 26);
+        }
+    }
+    ciphertext[pos] = '\0';
+
+    printf("\nPlaintext : %s", plaintext);
+    printf("\nCiphertext: %s\n", ciphertext);
+
+    return 0;
+}
+
+```
 ## OUTPUT
+<img width="1784" height="701" alt="Screenshot 2025-09-19 122953" src="https://github.com/user-attachments/assets/d9fee08b-100f-4f99-a769-fd756c6e9578" />
 
 ## RESULT
+Thus, the C program for Hill Cipher using a 3×3 key matrix was successfully executed, and the output was verified.
